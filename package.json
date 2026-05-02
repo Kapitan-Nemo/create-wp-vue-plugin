@@ -1,0 +1,45 @@
+{
+  "name": "create-wp-vue-plugin",
+  "version": "1.0.1",
+  "description": "CLI tool to scaffold WordPress plugins with Vue.js",
+  "type": "module",
+  "preferGlobal": true,
+  "bin": {
+    "create-wp-vue-plugin": "./bin/cli-auto.js"
+  },
+  "files": [
+    "bin",
+    "README.md",
+    "LICENSE"
+  ],
+  "scripts": {
+    "start": "node bin/cli-auto.js",
+    "start:manual": "node bin/cli.js"
+  },
+  "keywords": [
+    "wordpress",
+    "vue",
+    "plugin",
+    "scaffold",
+    "cli",
+    "boilerplate"
+  ],
+  "author": "Kapitan Nemo",
+  "license": "GPL-2.0+",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Kapitan-Nemo/create-wp-vue-plugin.git"
+  },
+  "homepage": "https://github.com/Kapitan-Nemo/create-wp-vue-plugin#readme",
+  "bugs": {
+    "url": "https://github.com/Kapitan-Nemo/create-wp-vue-plugin/issues"
+  },
+  "dependencies": {
+    "chalk": "^5.6.2",
+    "inquirer": "^13.4.2",
+    "ora": "^9.4.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}
