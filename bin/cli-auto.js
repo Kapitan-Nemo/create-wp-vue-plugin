@@ -12,6 +12,13 @@ import ora from 'ora';
 import fs from 'fs';
 import path from 'path';
 
+// Determine target directory:
+// When running locally from inside the CLI package (npm start / npm run start:manual),
+// create the new plugin one level up (in the actual plugins/ folder).
+// When running via npx from the plugins/ directory, use cwd directly.
+const __cliDir = path.resolve(path.dirname(new URL(import.meta.url).pathname), '..');
+const targetDir = process.cwd() === __cliDir ? path.dirname(process.cwd()) : process.cwd();
+
 // ASCII Art Banner
 const banner = `
 ${chalk.cyan('╔═══════════════════════════════════════════════════════════╗')}
@@ -35,18 +42,19 @@ async function runVueCreate() {
     console.log(chalk.gray('This will run: npm create vue@latest\n'));
 
     // Get directories before
-    const dirsBefore = new Set(getDirectories(process.cwd()));
+    const dirsBefore = new Set(getDirectories(targetDir));
 
     return new Promise((resolve, reject) => {
         const npmCmd = process.platform === 'win32' ? 'npm.cmd' : 'npm';
         const child = spawn(npmCmd, ['create', 'vue@latest'], {
-            stdio: 'inherit'
+            stdio: 'inherit',
+            cwd: targetDir
         });
 
         child.on('close', (code) => {
             if (code === 0) {
                 // Get directories after
-                const dirsAfter = getDirectories(process.cwd());
+                const dirsAfter = getDirectories(targetDir);
 
                 // Find new directory
                 const newDirs = dirsAfter.filter(dir => !dirsBefore.has(dir));
@@ -101,8 +109,8 @@ async function askForProjectFolder(detectedFolder) {
                 if (!input.trim()) {
                     return 'Folder name is required';
                 }
-                if (!fs.existsSync(path.join(process.cwd(), input))) {
-                    return `Folder "${input}" does not exist in current directory`;
+                if (!fs.existsSync(path.join(targetDir, input))) {
+                    return `Folder "${input}" does not exist in target directory`;
                 }
                 return true;
             }
@@ -520,7 +528,7 @@ async function createWordPressFiles(folderName, options) {
     const spinner = ora('Creating WordPress plugin files...').start();
 
     try {
-        const projectPath = path.join(process.cwd(), folderName);
+        const projectPath = path.join(targetDir, folderName);
 
         // Create main PHP file
         const phpContent = generatePluginPhp(folderName, options);

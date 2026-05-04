@@ -20,11 +20,14 @@ That's it. The command will fetch the latest version from GitHub and start the s
 If you want to modify the CLI itself or contribute:
 
 ```bash
+cd wp-content/plugins
 git clone https://github.com/Kapitan-Nemo/create-wp-vue-plugin.git
 cd create-wp-vue-plugin
 npm install
 npm start
 ```
+
+> 💡 **Note:** Even when running `npm start` from inside the `create-wp-vue-plugin/` folder, the new plugin will be created **one level up** — directly in `wp-content/plugins/` — so it behaves the same as the `npx` workflow.
 
 ## What it does
 
