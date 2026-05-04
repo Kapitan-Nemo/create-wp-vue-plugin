@@ -1,4 +1,4 @@
-# Create WP Vue Plugin 🚀
+# Create WP Vue Plugin
 
 CLI tool to scaffold WordPress plugins with Vue.js in seconds.
 
