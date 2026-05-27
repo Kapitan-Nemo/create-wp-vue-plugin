@@ -171,7 +171,7 @@ async function askWordPressDetails(defaultName) {
             default: 'https://github.com/Kapitan-Nemo/'
         },
         {
-            type: 'list',
+            type: 'select',
             name: 'licenseType',
             message: 'License:',
             choices: ['GPL-2.0+', 'GPL-3.0+', 'MIT'],

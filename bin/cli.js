@@ -125,7 +125,7 @@ async function askWordPressDetails(defaultName) {
             default: 'https://github.com/Kapitan-Nemo/'
         },
         {
-            type: 'list',
+            type: 'select',
             name: 'license',
             message: 'License:',
             choices: [
@@ -133,7 +133,7 @@ async function askWordPressDetails(defaultName) {
                 { name: 'GPL-3.0+', value: { name: 'GPL-3.0+', uri: 'http://www.gnu.org/licenses/gpl-3.0.txt' } },
                 { name: 'MIT', value: { name: 'MIT', uri: 'https://opensource.org/licenses/MIT' } }
             ],
-            default: 0
+            default: { name: 'GPL-2.0+', uri: 'http://www.gnu.org/licenses/gpl-2.0.txt' }
         },
         {
             type: 'input',
