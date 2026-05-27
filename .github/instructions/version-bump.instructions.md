@@ -1,13 +1,17 @@
 ---
-description: "Use when modifying package.json or package-lock.json: bump patch version (+1), write changelog entry in English."
-applyTo: "{package.json,package-lock.json}"
+description: "Use when modifying package.json, package-lock.json, or the main PHP plugin file: bump patch version (+1) in all version fields, write changelog entry in English."
+applyTo: "{package.json,package-lock.json,**/*.php}"
 ---
 # Version Bump & Changelog Rules
 
 ## Version Bump
 
 - Always increment the **patch** segment by 1 (e.g. `1.1.0` → `1.1.1`).
-- Update `version` in **both** `package.json` and `package-lock.json` (root `version` field and the matching entry under `packages[""]`).
+- Update the version in **all four locations** — never leave any out of sync:
+  1. `version` field in `package.json`
+  2. Root `version` field in `package-lock.json` and the matching entry under `packages[""]`
+  3. `* Version:           X.X.X` line in the main PHP plugin file header
+  4. `define('PLUGINNAME_VERSION', 'X.X.X');` constant in the main PHP plugin file (the constant name varies per plugin — match whatever `_VERSION` constant is already present)
 - Never skip a version or jump more than one patch at a time unless explicitly requested.
 
 ## Changelog
