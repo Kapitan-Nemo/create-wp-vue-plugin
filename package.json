@@ -1,6 +1,6 @@
 {
   "name": "create-wp-vue-plugin",
-  "version": "1.1.1",
+  "version": "1.2.0",
   "description": "CLI tool to scaffold WordPress plugins with Vue.js",
   "type": "module",
   "preferGlobal": true,

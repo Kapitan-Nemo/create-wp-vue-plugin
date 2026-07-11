@@ -1,3 +1,9 @@
+## [1.2.0] - 2026-07-11
+
+### Changed
+- `version-bump.instructions.md` now follows [Semantic Versioning 2.0.0](https://semver.org/): the version segment (MAJOR/MINOR/PATCH) is chosen based on the nature of the change instead of always incrementing patch.
+- Scaffolder templates in `cli-auto.js` and `cli.js` updated to generate the new SemVer-based `version-bump.instructions.md` in every newly created plugin.
+
 ## [1.1.1] - 2026-05-27
 
 ### Added
