@@ -1,3 +1,8 @@
+## [1.3.0] - 2026-07-11
+
+### Added
+- Scaffolder (`cli-auto.js` and `cli.js`) now generates `.github/copilot-instructions.md` with the Ponytail "lazy senior dev" ruleset in every newly created plugin.
+
 ## [1.2.0] - 2026-07-11
 
 ### Changed
