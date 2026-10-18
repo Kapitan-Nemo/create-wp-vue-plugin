@@ -1,3 +1,8 @@
+## [1.3.1] - 2026-10-18
+
+### Fixed
+- Scaffolder (`cli-auto.js` and `cli.js`) crashed on start with `SyntaxError` due to an unescaped backtick in the `version-bump.instructions.md` template.
+
 ## [1.3.0] - 2026-07-11
 
 ### Added

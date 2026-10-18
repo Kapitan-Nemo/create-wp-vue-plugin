@@ -754,7 +754,7 @@ Update the version in **all four locations** — never leave any out of sync:
   1. \`version\` field in \`package.json\`
   2. Root \`version\` field in \`package-lock.json\` and the matching entry under \`packages[""]\`
   3. \`* Version:           X.X.X\` line in the main PHP plugin file header (\`${folderName}.php\`)
-  4. \`define('${versionConstant}', 'X.X.X');\` constant in \`${folderName}.php\``
+  4. \`define('${versionConstant}', 'X.X.X');\` constant in \`${folderName}.php\`
 
 ## Changelog
 
