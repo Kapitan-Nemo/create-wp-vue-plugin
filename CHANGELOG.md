@@ -1,3 +1,8 @@
+## [1.4.0] - 2026-10-18
+
+### Changed
+- Generated `.github/copilot-instructions.md` updated to the latest [Ponytail](https://github.com/DietrichGebert/ponytail) ruleset and extended with [Caveman](https://github.com/juliusbrussee/caveman) terse-response rules (adapted for Copilot, with source attribution).
+
 ## [1.3.1] - 2026-10-18
 
 ### Fixed
