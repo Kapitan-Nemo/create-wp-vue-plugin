@@ -1,23 +1,90 @@
 # Create WP Vue Plugin
 
-CLI tool to scaffold WordPress plugins with Vue.js in seconds.
+CLI that scaffolds a WordPress plugin with a Vue 3 + Vite app inside.
 
-## Usage
+## Quick start
 
-Run the CLI directly from GitHub with `npx` — no installation required:
+Run it from your `wp-content/plugins/` directory:
 
 ```bash
 cd wp-content/plugins
 npx github:Kapitan-Nemo/create-wp-vue-plugin
 ```
 
-That's it. The command will fetch the latest version from GitHub and start the scaffolding wizard inside your current directory.
+The wizard:
 
-> 💡 **Tip:** Always run the command from inside your `wp-content/plugins/` directory — the new plugin folder will be created there.
+1. Runs `npm create vue@latest` and detects the new project folder.
+2. Asks for plugin details: name, URI, description, tags, version, author, author URI, license (GPL-2.0+, GPL-3.0+ or MIT), text domain, and whether to add an admin page.
+3. Turns the Vue project into a WordPress plugin.
 
-### Alternative: Clone for development
+> **Choose TypeScript** in the Vue wizard. The generated PHP and Vite config expect `src/main.ts` and `vite.config.ts`.
 
-If you want to modify the CLI itself or contribute:
+Then:
+
+```bash
+cd your-plugin
+npm install
+npm run build
+```
+
+Activate the plugin in **WordPress Admin → Plugins**.
+
+## What gets generated
+
+```
+your-plugin/
+├── .github/
+│   ├── copilot-instructions.md               # AI agent rules (Ponytail + Caveman)
+│   └── instructions/
+│       └── version-bump.instructions.md      # SemVer bump + changelog rules
+├── src/
+│   └── wordpress.d.ts                        # Types for data passed from PHP
+├── your-plugin.php                           # Main plugin file
+├── vite.config.ts                            # Rewritten for WordPress
+├── build-zip.js                              # Builds a distributable ZIP
+├── .wpignore                                 # Files excluded from the ZIP
+└── README.md                                 # Plugin docs
+```
+
+### Main PHP file
+
+- Plugin header, plus `<PREFIX>_VERSION`, `<PREFIX>_PLUGIN_DIR` and `<PREFIX>_PLUGIN_URL` constants.
+- Enqueues the built JS (as `type="module"`) and CSS from `dist/.vite/manifest.json`.
+- Passes `ajaxUrl`, `restUrl`, `nonce` and `pluginUrl` to Vue via `wp_localize_script` (`window.<textdomain>Data`).
+- Optional admin menu page that mounts the app in `<div id="app">`.
+- Activation and deactivation hooks.
+
+### Vite config
+
+Builds to `dist/` with `manifest: true` and `src/main.ts` as the entry point.
+
+### npm scripts added
+
+| Script | What it does |
+| --- | --- |
+| `npm run build` | Production build into `dist/` |
+| `npm run watch` | Rebuilds on every save (`vite build --watch`) |
+| `npm run build:zip` | Builds, then creates `<text-domain>-<version>.zip`, skipping everything in `.wpignore` |
+
+Upload the ZIP via **WordPress Admin → Plugins → Add New → Upload Plugin**.
+
+### AI agent instructions
+
+- `.github/copilot-instructions.md`: [Ponytail](https://github.com/DietrichGebert/ponytail) rules (smallest complete change) and [Caveman](https://github.com/juliusbrussee/caveman) rules (terse answers).
+- `.github/instructions/version-bump.instructions.md`: when the agent edits `package.json`, `package-lock.json` or the PHP file, it bumps the version in all four places and adds a `CHANGELOG.md` entry.
+
+## Manual mode
+
+If folder detection picks the wrong folder, use manual mode. It still runs `npm create vue@latest`, then asks you to type the folder name:
+
+```bash
+git clone https://github.com/Kapitan-Nemo/create-wp-vue-plugin.git
+cd create-wp-vue-plugin
+npm install
+npm run start:manual
+```
+
+## Developing the CLI
 
 ```bash
 cd wp-content/plugins
@@ -27,96 +94,14 @@ npm install
 npm start
 ```
 
-> 💡 **Note:** Even when running `npm start` from inside the `create-wp-vue-plugin/` folder, the new plugin will be created **one level up** — directly in `wp-content/plugins/` — so it behaves the same as the `npx` workflow.
-
-## What it does
-
-1. **Runs `npm create vue@latest`** - Creates a fresh Vue.js project with the latest configuration
-2. **Ask WordPress plugin details** - Plugin name, description, author, license, etc.
-3. **Generate WordPress files** - Main PHP file with proper headers and integration code
-
-## Features
-
-### WordPress Integration Options
-
-- **Admin Page** - Adds a WordPress admin menu page with Vue.js app
-- **Shortcode** - Register a shortcode to embed Vue app anywhere
-- **REST API** - Scaffold REST API endpoints for data handling
-
-### Generated Files
-
-```
-your-plugin/
-├── dist/                  # Production build output
-├── src/                   # Vue.js source files
-├── your-plugin.php        # Main WordPress plugin file
-├── vite.config.ts         # Vite config optimized for WP
-├── .wpignore              # Files to exclude from deployment
-└── README.md              # Plugin documentation
-```
-
-### Vite Configuration
-
-The generated `vite.config.ts` is pre-configured for WordPress:
-
-- Generates manifest.json for proper asset loading
-- Configures CORS for local development
-- Optimizes build output for WordPress
-
-### PHP Integration
-
-The main plugin file includes:
-
-- WordPress plugin headers
-- Asset enqueueing with manifest support
-- `wp_localize_script` for passing data to Vue
-- Activation/deactivation hooks
-
-## Development Workflow
-
-```bash
-# Start dev server
-npm run dev
-
-# Build for production
-npm run build
-```
-
-### Development Mode
-
-During development, the plugin loads assets from Vite dev server (localhost:5173).
-
-### Production Mode
-
-After building, the plugin loads assets from the `dist/` folder using the manifest.json.
-
-## Example Output
-
-```php
-<?php
-/**
- * @wordpress-plugin
- * Plugin Name:       My Awesome Plugin
- * Plugin URI:        https://github.com/username/my-awesome-plugin
- * Description:       A WordPress plugin powered by Vue.js
- * Version:           1.0.0
- * Author:            Your Name
- * Author URI:        https://github.com/username
- * License:           GPL-2.0+
- * License URI:       http://www.gnu.org/licenses/gpl-2.0.txt
- */
-```
+When run from inside the CLI's own folder, the plugin is created one level up, in `wp-content/plugins/`.
 
 ## Requirements
 
-- Node.js >= 18.0.0
-- npm or yarn
-- WordPress 5.0+
+- Node.js >= 18
+- `zip` available in your shell (for `npm run build:zip`)
+- WordPress
 
 ## License
 
-GPL-2.0+
-
-## Author
-
-Kapitan Nemo
+GPL-2.0+ · Author: Kapitan Nemo
